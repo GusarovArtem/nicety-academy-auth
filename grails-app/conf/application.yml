@@ -98,7 +98,7 @@ grails:
                 staticparts: none
 
 server:
-    port: 8082
+    port: 8083
     session:
         timeout: 10000
 
