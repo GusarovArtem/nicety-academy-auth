@@ -1,6 +1,6 @@
 # Authentication Service for Nicety Academy
 
-![Nicety Academy Microservices Communication Structure](https://user-images.githubusercontent.com/105131547/221430096-46183e9d-f202-4eef-947c-b96c95e34d77.png)
+![Nicety Academy Microservices Communication Structure](https://user-images.githubusercontent.com/105131547/224532300-dfb14782-a7e4-46bc-bc22-c86bc1662fcd.png)
 
 
 **Application Service Structure**
