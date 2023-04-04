@@ -1,7 +1,8 @@
+import auth.jwt.JwtUserDetailsService
 
 // Place your Spring DSL code here
 beans = {
-    userDetailsService(academy.user.security.AcademyUserDetailsService){
+    userDetailsService(JwtUserDetailsService){
         grailsApplication = ref('grailsApplication')
     }
 

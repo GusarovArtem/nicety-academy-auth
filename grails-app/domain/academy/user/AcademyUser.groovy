@@ -3,27 +3,22 @@ package academy.user
 
 import academy.user.security.AcademyRole
 import academy.user.security.AcademyUserRole
+import org.springframework.security.core.GrantedAuthority
 
 class AcademyUser {
-
-    def springSecurityService
-
 
     String email
 
     String password
-    String passwordConfirm
 
     boolean enabled
-    boolean accountExpired
-    boolean passwordExpired
-    boolean accountLocked
+    boolean accountNonExpired
+    boolean credentialsNonExpired
+    boolean accountNonLocked
 
     static mapping = {
         autowire true
     }
-
-    static transients = ['springSecurityService', 'passwordConfirm']
 
     static constraints = {
         email(blank: false, email: true, validator: { value, user ->
@@ -41,10 +36,6 @@ class AcademyUser {
         })
 
         password(nullable: false, blank: false, password: true)
-        passwordConfirm(nullable: false, blank: false, bindable: true, password: true, validator: { val, obj ->
-            obj.password == val ? true :
-                    ['invalid.matchingpasswords']
-        })
     }
 
 
@@ -52,13 +43,8 @@ class AcademyUser {
         AcademyUserRole.findAllByUser(this).collect { it.role } as Set
     }
 
-    def afterLoad() {
-        passwordConfirm = password
-    }
-
     def beforeInsert() {
         encodePassword()
-        capitalizeName()
     }
 
     def beforeUpdate() {
@@ -69,7 +55,6 @@ class AcademyUser {
 
     protected void encodePassword() {
         password = springSecurityService.encodePassword(password)
-        passwordConfirm = password
     }
 
 
