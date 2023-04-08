@@ -13,39 +13,8 @@ class JwtUtilService implements Serializable {
 
     static final long JWT_TOKEN_VALIDITY = 5*60*60
 
-    @Value('${jwtAuth.secret}')
+    @Value('${auth.jwt.secret}')
     private String secret
-
-     String getUsernameFromToken(String token) {
-        return getClaimFromToken(token, Claims::getSubject)
-    }
-
-     Date getIssuedAtDateFromToken(String token) {
-        return getClaimFromToken(token, Claims::getIssuedAt)
-    }
-
-     Date getExpirationDateFromToken(String token) {
-        return getClaimFromToken(token, Claims::getExpiration)
-    }
-
-     <T> T getClaimFromToken(String token, Function<Claims, T> claimsResolver) {
-        final Claims claims = getAllClaimsFromToken(token)
-        return claimsResolver.apply(claims)
-    }
-
-    private Claims getAllClaimsFromToken(String token) {
-        return Jwts.parser().setSigningKey(secret).parseClaimsJws(token).getBody()
-    }
-
-    private Boolean isTokenExpired(String token) {
-        final Date expiration = getExpirationDateFromToken(token)
-        return expiration.before(new Date())
-    }
-
-    private Boolean ignoreTokenExpiration(String token) {
-        // here you specify tokens, for that the expiration is ignored
-        return false
-    }
 
      String generateToken(UserDetails userDetails) {
         Map<String, Object> claims = new HashMap<>()
@@ -64,12 +33,4 @@ class JwtUtilService implements Serializable {
                 .compact()
     }
 
-     Boolean canTokenBeRefreshed(String token) {
-        return (!isTokenExpired(token) || ignoreTokenExpiration(token))
-    }
-
-     Boolean validateToken(String token, UserDetails userDetails) {
-        final String username = getUsernameFromToken(token)
-        return (username.equals(userDetails.getUsername()) && !isTokenExpired(token))
-    }
 }

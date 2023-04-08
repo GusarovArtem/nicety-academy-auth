@@ -20,7 +20,11 @@ grails {
 }
 
 // JWT
-jwt.secret='$nicety-academy-auth-secret$'
+auth{
+    jwt {
+        secret='kY2iN4qrWe/VFzN1dSmpSuxzFJwJKllt4p/fv4zz1ayGGkdzzxQ2X93TH0O312S'
+    }
+}
 
 //SPRING SECURITY
 // in current version spring-security the username property might not be override-able
