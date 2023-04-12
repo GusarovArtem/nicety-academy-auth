@@ -2,44 +2,40 @@ package academy.auth.jwt
 
 import academy.model.auth.jwt.JwtRequest
 import academy.model.auth.jwt.JwtResponse
+import academy.user.AcademyUser
+import org.springframework.beans.factory.annotation.Autowired
 import org.springframework.http.ResponseEntity
-import org.springframework.security.authentication.BadCredentialsException
-import org.springframework.security.authentication.DisabledException
-import org.springframework.security.authentication.UsernamePasswordAuthenticationToken
-import org.springframework.security.core.userdetails.UserDetails
-import org.springframework.web.bind.annotation.RequestMapping
-import org.springframework.web.bind.annotation.RequestMethod
+import org.springframework.security.crypto.password.PasswordEncoder
+import org.springframework.stereotype.Controller
 
+@Controller
 class JwtAuthController {
 
-    def authenticationManager
+    static allowedMethods = [generateAuthToken: "POST"]
+
+    @Autowired(required = false)
+    PasswordEncoder passwordEncoder
 
     def jwtUtilService
 
-    def userDetailsService
-
-    @RequestMapping(value = "/authenticate", method = RequestMethod.POST)
     ResponseEntity<?> generateAuthToken(JwtRequest authRequest) throws Exception {
 
-        authenticate(authRequest.email, authRequest.password)
+        final AcademyUser user = AcademyUser.findByEmail(authRequest.email)
 
-        final UserDetails userDetails = userDetailsService.loadUserByUsername(authRequest.email)
+        if (user) {
+            if (comparePasswords(authRequest.password, user.password)) {
+                final String token = jwtUtilService.generateToken(user)
 
-        final String token = jwtUtilService.generateToken(userDetails)
+                return ResponseEntity.ok(new JwtResponse(token))
+            }
+        }
 
-        return ResponseEntity.ok(new JwtResponse(token))
+        return ResponseEntity.badRequest().body("Invalid email or password")
     }
 
-    private void authenticate(String email, String password) throws Exception {
-        Objects.requireNonNull(email)
-        Objects.requireNonNull(password)
+    boolean comparePasswords(String enteredPassword, String encodedPassword) {
+        String encodedEnteredPassword = passwordEncoder.encode(enteredPassword)
 
-        try {
-            authenticationManager.authenticate(new UsernamePasswordAuthenticationToken(email, password))
-        } catch (DisabledException e) {
-            throw new Exception("USER_DISABLED", e)
-        } catch (BadCredentialsException e) {
-            throw new Exception("INVALID_CREDENTIALS", e)
-        }
+        passwordEncoder.matches(enteredPassword, encodedPassword)
     }
 }

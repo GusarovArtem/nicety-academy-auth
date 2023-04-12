@@ -1,13 +1,9 @@
-package auth.jwt
+package academy.jwt
 
-import io.jsonwebtoken.Claims
+import academy.user.AcademyUser
 import io.jsonwebtoken.Jwts
 import io.jsonwebtoken.SignatureAlgorithm
 import org.springframework.beans.factory.annotation.Value
-import org.springframework.security.core.userdetails.UserDetails
-import org.springframework.stereotype.Component
-
-import java.util.function.Function
 
 class JwtUtilService implements Serializable {
 
@@ -16,9 +12,9 @@ class JwtUtilService implements Serializable {
     @Value('${auth.jwt.secret}')
     private String secret
 
-     String generateToken(UserDetails userDetails) {
+     String generateToken(AcademyUser user) {
         Map<String, Object> claims = new HashMap<>()
-        return doGenerateToken(claims, userDetails.getUsername())
+        return doGenerateToken(claims, user.email)
     }
 
     private String doGenerateToken(Map<String, Object> claims, String subject) {
