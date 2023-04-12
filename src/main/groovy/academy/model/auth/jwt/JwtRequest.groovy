@@ -1,6 +1,8 @@
 package academy.model.auth.jwt
 
-class JwtRequest implements Serializable {
+import grails.validation.Validateable
+
+class JwtRequest implements Validateable {
 
     String email
 
