@@ -1,3 +1,7 @@
+auth:
+    jwt:
+        secret: 'kY2iN4qrWe/VFzN1dSmpSuxzFJwJKllt4p/fv4zz1ayGGkdzzxQ2X93TH0O312S'
+
 ---
 grails:
     profile: web
@@ -12,6 +16,9 @@ grails:
             # Whether to translate GORM events into Reactor events
             # Disabled by default for performance reasons
             events: false
+    plugin:
+        springsecurity:
+            active: false
 info:
     app:
         name: '@info.app.name@'
@@ -34,6 +41,7 @@ endpoints:
     enabled: true
     jmx:
         enabled: true
+        unique-names: true
 
 management:
     context-path: /manage
@@ -102,9 +110,6 @@ server:
     session:
         timeout: 10000
 
-endpoints:
-    jmx:
-        unique-names: true
 
 ---
 hibernate:
