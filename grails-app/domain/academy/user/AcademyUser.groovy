@@ -1,20 +1,14 @@
 package academy.user
 
 
-import academy.user.security.AcademyRole
-import academy.user.security.AcademyUserRole
-import org.springframework.security.core.GrantedAuthority
+import academy.user.role.AcademyRole
+import academy.user.role.AcademyUserRole
 
 class AcademyUser {
 
     String email
 
     String password
-
-    boolean enabled
-    boolean accountNonExpired
-    boolean credentialsNonExpired
-    boolean accountNonLocked
 
     static mapping = {
         autowire true
