@@ -3,18 +3,13 @@ package academy.auth.jwt
 import academy.model.auth.jwt.JwtRequest
 import academy.model.auth.jwt.JwtResponse
 import academy.user.AcademyUser
-import org.springframework.beans.factory.annotation.Autowired
 import org.springframework.http.ResponseEntity
-import org.springframework.security.crypto.password.PasswordEncoder
-import org.springframework.stereotype.Controller
 
-@Controller
 class JwtAuthController {
 
     static allowedMethods = [generateAuthToken: "POST"]
 
-    @Autowired(required = false)
-    PasswordEncoder passwordEncoder
+    def passwordEncoder
 
     def jwtUtilService
 
@@ -35,6 +30,7 @@ class JwtAuthController {
 
     boolean comparePasswords(String enteredPassword, String encodedPassword) {
         String encodedEnteredPassword = passwordEncoder.encode(enteredPassword)
+        encodedPassword = encodedPassword.replace('{bcrypt}', '')
 
         passwordEncoder.matches(enteredPassword, encodedPassword)
     }
