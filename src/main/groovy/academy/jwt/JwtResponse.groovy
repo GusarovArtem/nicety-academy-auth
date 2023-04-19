@@ -1,4 +1,4 @@
-package academy.model.auth.jwt
+package academy.jwt
 
 class JwtResponse implements Serializable {
 

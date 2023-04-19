@@ -12,9 +12,9 @@ class JwtUtilService implements Serializable {
     @Value('${auth.jwt.secret}')
     private String secret
 
-     String generateToken(AcademyUser user) {
+     String generateToken(String email) {
         Map<String, Object> claims = new HashMap<>()
-        return doGenerateToken(claims, user.email)
+        return doGenerateToken(claims, email)
     }
 
     private String doGenerateToken(Map<String, Object> claims, String subject) {

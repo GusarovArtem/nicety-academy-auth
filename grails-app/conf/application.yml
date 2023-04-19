@@ -1,7 +1,7 @@
 auth:
+    header: "Authorization"
     jwt:
         secret: 'XUlkPxDr620G6sz2OC40sXvkaqzeFeeFTm93A0BMLbWXFKb5SzFdTAsJgLoOzSWTUAhcTvoe5KiYPDg3wif1Ew'
-
 ---
 grails:
     profile: web
@@ -134,7 +134,7 @@ environments:
         dataSource:
             driverClassName: org.postgresql.Driver
             dbCreate: update
-            url: jdbc:postgresql://localhost:5433/academy_auth
+            url: jdbc:postgresql://localhost:5434/academy_auth
             username: postgres
             password: postgres
             #logSql: true
