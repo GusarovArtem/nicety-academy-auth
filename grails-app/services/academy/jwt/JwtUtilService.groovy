@@ -1,6 +1,6 @@
 package academy.jwt
 
-import academy.user.AcademyUser
+
 import io.jsonwebtoken.Jwts
 import io.jsonwebtoken.SignatureAlgorithm
 import org.springframework.beans.factory.annotation.Value

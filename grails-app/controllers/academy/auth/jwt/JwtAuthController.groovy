@@ -1,6 +1,7 @@
 package academy.auth.jwt
 
-import academy.user.AcademyUser
+
+import academy.user.User
 import academy.user.UserCredentials
 import org.springframework.beans.factory.annotation.Value
 import org.springframework.http.ResponseEntity
@@ -20,7 +21,7 @@ class JwtAuthController {
         UserCredentials credentials = credentialsFromAuthHeader(request.getHeader(AUTH_HEADER))
 
         if (credentials) {
-            final AcademyUser user = AcademyUser.findByEmail(credentials.email)
+            final User user = User.findByEmail(credentials.email)
             if (user) {
                 if (comparePasswords(credentials.password, user.password)) {
                     return render(jwtUtilService.generateToken(user.email))

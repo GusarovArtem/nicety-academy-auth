@@ -1,10 +1,10 @@
 package academy.user
 
 
-import academy.user.role.AcademyRole
-import academy.user.role.AcademyUserRole
+import academy.user.role.Role
+import academy.user.role.UserRole
 
-class AcademyUser {
+class User {
 
     String email
 
@@ -19,8 +19,8 @@ class AcademyUser {
             String login = value.trim()
 
             def notUnique
-            if (AcademyUser.findAllByEmail(login).find { it.id != user.id }) {
-                notUnique = ['AcademyUser.email.unique']
+            if (User.findAllByEmail(login).find { it.id != user.id }) {
+                notUnique = ['User.email.unique']
             }
             if (notUnique) {
                 return notUnique
@@ -33,8 +33,8 @@ class AcademyUser {
     }
 
 
-    Set<AcademyRole> authorities() {
-        AcademyUserRole.findAllByUser(this).collect { it.role } as Set
+    Set<Role> authorities() {
+        UserRole.findAllByUser(this).collect { it.role } as Set
     }
 
     def beforeInsert() {

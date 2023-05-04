@@ -1,6 +1,6 @@
 package academy.user.role
 
-class AcademyRole {
+class Role {
 
     String authority
 
