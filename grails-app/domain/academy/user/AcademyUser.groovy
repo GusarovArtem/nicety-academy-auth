@@ -4,7 +4,7 @@ package academy.user
 import academy.user.role.Role
 import academy.user.role.UserRole
 
-class User {
+class AcademyUser {
 
     String email
 
@@ -19,8 +19,8 @@ class User {
             String login = value.trim()
 
             def notUnique
-            if (User.findAllByEmail(login).find { it.id != user.id }) {
-                notUnique = ['User.email.unique']
+            if (AcademyUser.findAllByEmail(login).find { it.id != user.id }) {
+                notUnique = ['AcademyUser.email.unique']
             }
             if (notUnique) {
                 return notUnique
